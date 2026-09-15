@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int> prefixCounts;
+        // Base case: a prefix sum of 0 has occurred once (empty prefix)
+        prefixCounts[0] = 1;
+        
+        int currentSum = 0;
+        int count = 0;
+        
+        for (int num : nums) {
+            currentSum += num;
+            
+            // Check if there is a prefix sum such that: currentSum - target = k
+            // => target = currentSum - k
+            if (prefixCounts.find(currentSum - k) != prefixCounts.end()) {
+                count += prefixCounts[currentSum - k];
+            }
+            
+            // Record the current prefix sum frequency
+            prefixCounts[currentSum]++;
+        }
+        
+        return count;
+    }
+};
